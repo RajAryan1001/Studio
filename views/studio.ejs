@@ -1,0 +1,790 @@
+<div class="card studio-container">
+    <!-- Header -->
+    <div class="studio-header">
+        <h1 class="studio-title">
+            <i class="fas fa-store"></i> Studio Profile
+        </h1>
+        <p class="studio-subtitle">Manage your tattoo studio information</p>
+    </div>
+    
+    <!-- Form Section -->
+    <div class="form-section">
+        <div class="form-header">
+            <h2><i class="fas fa-edit"></i> Edit Studio Details</h2>
+            <p>Update your studio information below</p>
+        </div>
+        
+        <form action="/studio" method="POST" class="studio-form">
+            <!-- Studio Name -->
+            <div class="form-card">
+                <div class="form-card-header">
+                    <div class="form-card-icon">
+                        <i class="fas fa-signature"></i>
+                    </div>
+                    <div>
+                        <h3>Studio Name</h3>
+                        <p>Your studio's public identity</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-asterisk"></i> Studio Name *</label>
+                    <input type="text" 
+                           name="name" 
+                           value="<%= studio ? studio.name : '' %>" 
+                           placeholder="e.g., InkSesh Tattoo Studio"
+                           required
+                           class="form-input">
+                </div>
+            </div>
+            
+            <!-- Location -->
+            <div class="form-card">
+                <div class="form-card-header">
+                    <div class="form-card-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div>
+                        <h3>Studio Location</h3>
+                        <p>Where clients can find you</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-asterisk"></i> Location *</label>
+                    <input type="text" 
+                           name="location" 
+                           value="<%= studio ? studio.location : '' %>" 
+                           placeholder="e.g., Connaught Place, Delhi"
+                           required
+                           class="form-input">
+                </div>
+            </div>
+            
+            <!-- Specialties -->
+            <div class="form-card">
+                <div class="form-card-header">
+                    <div class="form-card-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div>
+                        <h3>Tattoo Specialties</h3>
+                        <p>What your studio is known for</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-paint-brush"></i> Specialties</label>
+                    <input type="text" 
+                           name="specialties" 
+                           value="<%= studio && studio.specialties ? studio.specialties.join(', ') : '' %>"
+                           placeholder="e.g., Realism, Traditional, Blackwork, Japanese"
+                           class="form-input">
+                    <div class="specialty-tags">
+                        <span class="tag" onclick="addSpecialty('Realism')">Realism</span>
+                        <span class="tag" onclick="addSpecialty('Traditional')">Traditional</span>
+                        <span class="tag" onclick="addSpecialty('Blackwork')">Blackwork</span>
+                        <span class="tag" onclick="addSpecialty('Japanese')">Japanese</span>
+                        <span class="tag" onclick="addSpecialty('Geometric')">Geometric</span>
+                        <span class="tag" onclick="addSpecialty('Watercolor')">Watercolor</span>
+                    </div>
+                    <p class="form-hint">Click tags to add specialties. Separate with commas.</p>
+                </div>
+            </div>
+            
+            <!-- Submit Button -->
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-save"></i> Save Studio Profile
+                </button>
+                <button type="button" class="reset-btn" onclick="resetForm()">
+                    <i class="fas fa-redo"></i> Reset Form
+                </button>
+            </div>
+        </form>
+    </div>
+    
+    <!-- Current Info -->
+    <% if (studio) { %>
+        <div class="current-info">
+            <div class="current-info-header">
+                <h2><i class="fas fa-check-circle"></i> Current Studio Profile</h2>
+                <div class="status-badge active">
+                    <i class="fas fa-badge-check"></i> Active
+                </div>
+            </div>
+            
+            <div class="info-grid">
+                <!-- Studio Details -->
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <i class="fas fa-store"></i>
+                        <h3>Studio Details</h3>
+                    </div>
+                    <div class="info-content">
+                        <div class="info-item">
+                            <span class="info-label">Studio Name:</span>
+                            <span class="info-value"><%= studio.name %></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Location:</span>
+                            <span class="info-value"><%= studio.location %></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Last Updated:</span>
+                            <span class="info-value">
+                                <%= studio.updatedAt ? new Date(studio.updatedAt).toLocaleDateString() : 'Recently' %>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Specialties -->
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <i class="fas fa-star"></i>
+                        <h3>Specialties</h3>
+                    </div>
+                    <div class="info-content">
+                        <div class="specialties-container">
+                            <% studio.specialties.forEach(specialty => { %>
+                                <span class="specialty-badge">
+                                    <i class="fas fa-check"></i> <%= specialty.trim() %>
+                                </span>
+                            <% }) %>
+                        </div>
+                        <div class="info-footer">
+                            <i class="fas fa-info-circle"></i>
+                            <%= studio.specialties.length %> specialty<%= studio.specialties.length > 1 ? 'ies' : '' %> listed
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Actions -->
+            <div class="action-buttons">
+                <button class="action-btn copy-btn" onclick="copyStudioInfo()">
+                    <i class="fas fa-copy"></i> Copy Profile
+                </button>
+                <button class="action-btn share-btn" onclick="shareStudioInfo()">
+                    <i class="fas fa-share-alt"></i> Share
+                </button>
+                <a href="/home" class="action-btn home-btn">
+                    <i class="fas fa-home"></i> Go Home
+                </a>
+            </div>
+        </div>
+    <% } else { %>
+        <!-- Empty State -->
+        <div class="empty-state">
+            <div class="empty-icon">
+                <i class="fas fa-store-slash"></i>
+            </div>
+            <h3>Studio Profile Not Setup</h3>
+            <p>Setup your studio profile to start managing your tattoo studio.</p>
+            <button onclick="scrollToForm()" class="setup-btn">
+                <i class="fas fa-plus"></i> Setup Studio Profile
+            </button>
+        </div>
+    <% } %>
+</div>
+
+<style>
+    /* Studio Page Specific Styles */
+    .studio-container {
+        padding: 30px;
+    }
+    
+    /* Header */
+    .studio-header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #eaeaea;
+    }
+    
+    .studio-title {
+        color: #2c3e50;
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+    }
+    
+    .studio-title i {
+        color: #3498db;
+        background: rgba(52, 152, 219, 0.1);
+        padding: 15px;
+        border-radius: 50%;
+    }
+    
+    .studio-subtitle {
+        color: #7f8c8d;
+        font-size: 1.2rem;
+    }
+    
+    /* Form Section */
+    .form-section {
+        background: #f8fafc;
+        border-radius: 10px;
+        padding: 30px;
+        margin-bottom: 40px;
+        border: 1px solid #eaeaea;
+    }
+    
+    .form-header {
+        margin-bottom: 30px;
+    }
+    
+    .form-header h2 {
+        color: #2c3e50;
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .form-header p {
+        color: #7f8c8d;
+    }
+    
+    /* Form Cards */
+    .form-card {
+        background: white;
+        border-radius: 8px;
+        padding: 25px;
+        margin-bottom: 20px;
+        border: 1px solid #eaeaea;
+        transition: all 0.3s;
+    }
+    
+    .form-card:hover {
+        border-color: #3498db;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    
+    .form-card-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .form-card-icon {
+        width: 50px;
+        height: 50px;
+        background: #3498db;
+        color: white;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+    }
+    
+    .form-card-header h3 {
+        color: #2c3e50;
+        margin-bottom: 5px;
+    }
+    
+    .form-card-header p {
+        color: #7f8c8d;
+        font-size: 0.9rem;
+    }
+    
+    /* Form Inputs */
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-group label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #2c3e50;
+        font-weight: 600;
+        margin-bottom: 10px;
+        font-size: 1rem;
+    }
+    
+    .form-group label i {
+        color: #3498db;
+    }
+    
+    .form-input {
+        width: 100%;
+        padding: 14px;
+        border: 2px solid #e0e0e0;
+        border-radius: 6px;
+        font-size: 16px;
+        transition: all 0.3s;
+    }
+    
+    .form-input:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        outline: none;
+    }
+    
+    /* Specialty Tags */
+    .specialty-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 15px 0;
+    }
+    
+    .tag {
+        background: #e3f2fd;
+        color: #1976d2;
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        border: 1px solid #bbdefb;
+    }
+    
+    .tag:hover {
+        background: #1976d2;
+        color: white;
+        transform: translateY(-2px);
+    }
+    
+    .form-hint {
+        color: #7f8c8d;
+        font-size: 0.9rem;
+        margin-top: 8px;
+    }
+    
+    /* Form Actions */
+    .form-actions {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #eaeaea;
+    }
+    
+    .submit-btn {
+        background: #3498db;
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s;
+    }
+    
+    .submit-btn:hover {
+        background: #2980b9;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+    }
+    
+    .reset-btn {
+        background: #f8f9fa;
+        color: #6c757d;
+        border: 1px solid #dee2e6;
+        padding: 15px 30px;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s;
+    }
+    
+    .reset-btn:hover {
+        background: #e9ecef;
+        border-color: #6c757d;
+    }
+    
+    /* Current Info */
+    .current-info {
+        background: #f0f9ff;
+        border-radius: 10px;
+        padding: 30px;
+        border: 1px solid #c5e1ff;
+    }
+    
+    .current-info-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #d1e9ff;
+    }
+    
+    .current-info-header h2 {
+        color: #0369a1;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .status-badge {
+        background: #22c55e;
+        color: white;
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    /* Info Grid */
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+        margin: 30px 0;
+    }
+    
+    .info-card {
+        background: white;
+        border-radius: 8px;
+        padding: 25px;
+        border: 1px solid #e0f2fe;
+    }
+    
+    .info-card-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #f0f9ff;
+    }
+    
+    .info-card-header i {
+        font-size: 1.8rem;
+        color: #0369a1;
+    }
+    
+    .info-card-header h3 {
+        color: #0c4a6e;
+        font-size: 1.3rem;
+    }
+    
+    .info-content {
+        padding: 10px 0;
+    }
+    
+    .info-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid #f8fafc;
+    }
+    
+    .info-label {
+        color: #64748b;
+        font-weight: 500;
+    }
+    
+    .info-value {
+        color: #1e293b;
+        font-weight: 600;
+    }
+    
+    /* Specialties */
+    .specialties-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 15px 0;
+    }
+    
+    .specialty-badge {
+        background: #dbeafe;
+        color: #1d4ed8;
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .info-footer {
+        margin-top: 20px;
+        padding-top: 15px;
+        border-top: 1px solid #f0f9ff;
+        color: #64748b;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    /* Action Buttons */
+    .action-buttons {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #d1e9ff;
+    }
+    
+    .action-btn {
+        padding: 12px 25px;
+        border-radius: 6px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        transition: all 0.3s;
+        border: none;
+    }
+    
+    .copy-btn {
+        background: #3b82f6;
+        color: white;
+    }
+    
+    .copy-btn:hover {
+        background: #2563eb;
+        transform: translateY(-2px);
+    }
+    
+    .share-btn {
+        background: #8b5cf6;
+        color: white;
+    }
+    
+    .share-btn:hover {
+        background: #7c3aed;
+        transform: translateY(-2px);
+    }
+    
+    .home-btn {
+        background: #6b7280;
+        color: white;
+    }
+    
+    .home-btn:hover {
+        background: #4b5563;
+        transform: translateY(-2px);
+    }
+    
+    /* Empty State */
+    .empty-state {
+        text-align: center;
+        padding: 60px 30px;
+        background: #f8fafc;
+        border-radius: 10px;
+        border: 2px dashed #cbd5e1;
+    }
+    
+    .empty-icon {
+        font-size: 4rem;
+        color: #cbd5e1;
+        margin-bottom: 20px;
+    }
+    
+    .empty-state h3 {
+        color: #64748b;
+        margin-bottom: 15px;
+    }
+    
+    .empty-state p {
+        color: #94a3b8;
+        max-width: 400px;
+        margin: 0 auto 30px;
+    }
+    
+    .setup-btn {
+        background: #3498db;
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s;
+    }
+    
+    .setup-btn:hover {
+        background: #2980b9;
+        transform: translateY(-2px);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .studio-title {
+            font-size: 2rem;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .form-actions {
+            flex-direction: column;
+        }
+        
+        .action-buttons {
+            flex-direction: column;
+        }
+        
+        .action-btn {
+            justify-content: center;
+        }
+        
+        .info-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .studio-container {
+            padding: 20px;
+        }
+        
+        .form-section {
+            padding: 20px;
+        }
+        
+        .form-card {
+            padding: 20px;
+        }
+    }
+</style>
+
+<!-- JavaScript -->
+<script>
+    // Add specialty from tag click
+    function addSpecialty(specialty) {
+        const input = document.querySelector('input[name="specialties"]');
+        const currentValue = input.value.trim();
+        
+        if (currentValue === '') {
+            input.value = specialty;
+        } else {
+            // Check if already exists
+            const specialties = currentValue.split(',').map(s => s.trim());
+            if (!specialties.includes(specialty)) {
+                input.value = currentValue + ', ' + specialty;
+            }
+        }
+        
+        // Show notification
+        showNotification(`Added: ${specialty}`);
+        input.focus();
+    }
+    
+    // Reset form
+    function resetForm() {
+        if (confirm('Are you sure you want to reset the form?')) {
+            document.querySelector('.studio-form').reset();
+            showNotification('Form has been reset');
+        }
+    }
+    
+    // Copy studio info
+    function copyStudioInfo() {
+        <% if (studio) { %>
+            const text = `
+Studio: <%= studio.name %>
+Location: <%= studio.location %>
+Specialties: <%= studio.specialties.join(', ') %>
+            
+InkSesh Studio Profile
+            `.trim();
+            
+            navigator.clipboard.writeText(text)
+                .then(() => showNotification('Studio profile copied to clipboard!'))
+                .catch(() => showNotification('Failed to copy'));
+        <% } %>
+    }
+    
+    // Share studio info
+    function shareStudioInfo() {
+        <% if (studio) { %>
+            if (navigator.share) {
+                navigator.share({
+                    title: '<%= studio.name %> - Tattoo Studio',
+                    text: `Check out <%= studio.name %> in <%= studio.location %>. Specialties: <%= studio.specialties.join(', ') %>`,
+                    url: window.location.href
+                });
+            } else {
+                copyStudioInfo();
+            }
+        <% } %>
+    }
+    
+    // Scroll to form
+    function scrollToForm() {
+        document.querySelector('.form-section').scrollIntoView({ 
+            behavior: 'smooth' 
+        });
+    }
+    
+    // Show notification
+    function showNotification(message) {
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #22c55e;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        `;
+        notification.innerHTML = `
+            <i class="fas fa-check-circle"></i>
+            <span>${message}</span>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
+    }
+    
+    // Add animation keyframes
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+    `;
+    document.head.appendChild(style);
+</script>
+
+<!-- Font Awesome for icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>

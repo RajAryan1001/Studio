@@ -1,0 +1,427 @@
+<div class="card home-container">
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <h1 class="hero-title">Welcome to InkSesh Studio Admin</h1>
+        <p class="hero-subtitle">Professional tattoo studio management made simple</p>
+    </div>
+    
+    <!-- Stats Cards -->
+    <div class="stats-container">
+        <div class="stat-item">
+            <div class="stat-icon">
+                <i class="fas fa-store"></i>
+            </div>
+            <div class="stat-number"><%= studioCount || 0 %></div>
+            <div class="stat-label">Studio</div>
+        </div>
+        
+        <div class="stat-item">
+            <div class="stat-icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-number"><%= artistCount || 0 %></div>
+            <div class="stat-label">Artists</div>
+        </div>
+        
+        <div class="stat-item">
+            <div class="stat-icon">
+                <i class="fas fa-images"></i>
+            </div>
+            <div class="stat-number"><%= assetCount || 0 %></div>
+            <div class="stat-label">Assets</div>
+        </div>
+    </div>
+    
+    <!-- Quick Actions -->
+    <h2 class="section-title">Quick Actions</h2>
+    <div class="actions-grid">
+        <div class="action-card studio-card">
+            <div class="action-icon">
+                <i class="fas fa-store-alt"></i>
+            </div>
+            <h3>Studio Setup</h3>
+            <p>Configure your studio details and specialties</p>
+            <a href="/studio" class="action-btn">
+                <span>Setup Studio</span>
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+        
+        <div class="action-card artists-card">
+            <div class="action-icon">
+                <i class="fas fa-user-plus"></i>
+            </div>
+            <h3>Manage Artists</h3>
+            <p>Add and manage your tattoo artists team</p>
+            <a href="/artists" class="action-btn">
+                <span>View Artists</span>
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+        
+        <div class="action-card assets-card">
+            <div class="action-icon">
+                <i class="fas fa-cloud-upload-alt"></i>
+            </div>
+            <h3>Upload Portfolio</h3>
+            <p>Showcase your work with images and videos</p>
+            <a href="/assets" class="action-btn">
+                <span>Upload Assets</span>
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Getting Started -->
+    <div class="getting-started">
+        <h2 class="section-title">Getting Started</h2>
+        <div class="steps-container">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>Setup Studio</h4>
+                    <p>Add your studio name, location, and specialties</p>
+                </div>
+                <a href="/studio" class="step-link">Start →</a>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>Add Artists</h4>
+                    <p>Register your tattoo artists with their roles</p>
+                </div>
+                <a href="/artists" class="step-link">Start →</a>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>Upload Portfolio</h4>
+                    <p>Add images and videos of your best work</p>
+                </div>
+                <a href="/assets" class="step-link">Start →</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Home Page Specific Styles */
+    .home-container {
+        padding: 30px;
+    }
+    
+    /* Hero Section */
+    .hero-section {
+        text-align: center;
+        margin-bottom: 40px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid #eaeaea;
+    }
+    
+    .hero-title {
+        color: #2c3e50;
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+        font-weight: 700;
+    }
+    
+    .hero-subtitle {
+        color: #7f8c8d;
+        font-size: 1.2rem;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    /* Stats Container */
+    .stats-container {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin: 40px 0;
+        flex-wrap: wrap;
+    }
+    
+    .stat-item {
+        background: white;
+        border-radius: 10px;
+        padding: 25px;
+        text-align: center;
+        min-width: 180px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        border: 1px solid #eaeaea;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .stat-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .stat-icon {
+        font-size: 2.5rem;
+        color: #3498db;
+        margin-bottom: 15px;
+    }
+    
+    .stat-number {
+        font-size: 2.8rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 5px;
+    }
+    
+    .stat-label {
+        color: #7f8c8d;
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    /* Section Titles */
+    .section-title {
+        color: #2c3e50;
+        font-size: 1.8rem;
+        margin: 40px 0 25px 0;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #f0f0f0;
+    }
+    
+    /* Actions Grid */
+    .actions-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+        margin: 30px 0;
+    }
+    
+    .action-card {
+        background: white;
+        border-radius: 10px;
+        padding: 30px;
+        border: 1px solid #eaeaea;
+        transition: all 0.3s;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .action-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        border-color: #3498db;
+    }
+    
+    .studio-card {
+        border-top: 4px solid #3498db;
+    }
+    
+    .artists-card {
+        border-top: 4px solid #2ecc71;
+    }
+    
+    .assets-card {
+        border-top: 4px solid #e74c3c;
+    }
+    
+    .action-icon {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+    
+    .studio-card .action-icon {
+        color: #3498db;
+    }
+    
+    .artists-card .action-icon {
+        color: #2ecc71;
+    }
+    
+    .assets-card .action-icon {
+        color: #e74c3c;
+    }
+    
+    .action-card h3 {
+        color: #2c3e50;
+        margin-bottom: 15px;
+        font-size: 1.5rem;
+    }
+    
+    .action-card p {
+        color: #7f8c8d;
+        line-height: 1.6;
+        margin-bottom: 25px;
+    }
+    
+    .action-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: #3498db;
+        text-decoration: none;
+        font-weight: 600;
+        padding: 10px 20px;
+        border-radius: 6px;
+        background: rgba(52, 152, 219, 0.1);
+        transition: all 0.3s;
+    }
+    
+    .action-btn:hover {
+        background: #3498db;
+        color: white;
+        transform: translateX(5px);
+    }
+    
+    /* Getting Started */
+    .getting-started {
+        background: #f8fafc;
+        border-radius: 10px;
+        padding: 30px;
+        margin-top: 40px;
+        border: 1px solid #eaeaea;
+    }
+    
+    .steps-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .step {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 20px;
+        background: white;
+        border-radius: 8px;
+        border: 1px solid #eaeaea;
+        transition: all 0.3s;
+    }
+    
+    .step:hover {
+        border-color: #3498db;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    
+    .step-number {
+        width: 40px;
+        height: 40px;
+        background: #3498db;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+    }
+    
+    .step-content {
+        flex: 1;
+    }
+    
+    .step-content h4 {
+        color: #2c3e50;
+        margin-bottom: 5px;
+        font-size: 1.2rem;
+    }
+    
+    .step-content p {
+        color: #7f8c8d;
+        font-size: 0.95rem;
+    }
+    
+    .step-link {
+        color: #3498db;
+        text-decoration: none;
+        font-weight: 600;
+        padding: 8px 15px;
+        border-radius: 6px;
+        background: rgba(52, 152, 219, 0.1);
+        transition: all 0.3s;
+        white-space: nowrap;
+    }
+    
+    .step-link:hover {
+        background: #3498db;
+        color: white;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 2rem;
+        }
+        
+        .stat-item {
+            min-width: 150px;
+            padding: 20px;
+        }
+        
+        .stat-number {
+            font-size: 2.2rem;
+        }
+        
+        .actions-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .step {
+            flex-direction: column;
+            text-align: center;
+            gap: 15px;
+        }
+        
+        .step-content {
+            text-align: center;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .stats-container {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .stat-item {
+            width: 100%;
+            max-width: 250px;
+        }
+        
+        .home-container {
+            padding: 20px;
+        }
+    }
+</style>
+
+<!-- Add Font Awesome for icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+<script>
+    // Animate stats counter
+    document.addEventListener('DOMContentLoaded', function() {
+        const statNumbers = document.querySelectorAll('.stat-number');
+        
+        statNumbers.forEach(stat => {
+            const target = parseInt(stat.textContent) || 0;
+            let current = 0;
+            const increment = target / 20;
+            const duration = 1000;
+            const stepTime = duration / 20;
+            
+            const updateCounter = () => {
+                current += increment;
+                if (current >= target) {
+                    stat.textContent = target;
+                } else {
+                    stat.textContent = Math.floor(current);
+                    setTimeout(updateCounter, stepTime);
+                }
+            };
+            
+            // Start animation after a delay
+            setTimeout(updateCounter, 300);
+        });
+    });
+</script>
